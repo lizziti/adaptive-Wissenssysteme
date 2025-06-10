@@ -1,4 +1,5 @@
 import plotly.graph_objects as go
+import plotly.io as pio
 
 MIN_PRICE_COAL = 10     # €/Tonne
 MAX_PRICE_COAL = 200    # €/Tonne
@@ -57,6 +58,8 @@ def get_next_prices_and_probs(coal_price, energy_price):
     return next_prices
 
 def plot_policy_3d(policy):
+    pio.renderers.default = 'browser'
+
     x, y, z, colors, texts = [], [], [], [], []
 
     # Farben je Aktion
@@ -106,8 +109,8 @@ def plot_policy_3d(policy):
 
 def main():
     GAMMA = 0.4         # Diskontierungsfaktor
-    THRESHOLD = 1#1e-3    # Konvergenz
-    MAX_ITERATIONS = 100
+    THRESHOLD = 1e-3    # Konvergenz
+    MAX_ITERATIONS = 10
     storage_states = range(0, MAX_STORAGE_COAL + 1, BUY_AMOUNT_COAL)
     coal_price_states = range(MIN_PRICE_COAL, MAX_PRICE_COAL + 1, DELTA_PRICE_COAL)
     energy_price_states = range(MIN_PRICE_ENERGY, MAX_PRICE_ENERGY + 1, DELTA_PRICE_ENERGY)
