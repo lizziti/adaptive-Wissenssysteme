@@ -1,5 +1,6 @@
-import plotly.graph_objects as go
 import plotly.io as pio
+pio.renderers.default = 'browser'
+import plotly.graph_objects as go
 
 MIN_PRICE_COAL = 10     # €/Tonne
 MAX_PRICE_COAL = 200    # €/Tonne
@@ -58,8 +59,6 @@ def get_next_prices_and_probs(coal_price, energy_price):
     return next_prices
 
 def plot_policy_3d(policy):
-    pio.renderers.default = 'browser'
-
     x, y, z, colors, texts = [], [], [], [], []
 
     # Farben je Aktion
