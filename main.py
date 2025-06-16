@@ -1,3 +1,4 @@
+import csv
 import plotly.io as pio
 pio.renderers.default = 'browser'
 import plotly.graph_objects as go
@@ -15,10 +16,14 @@ OMEGA_ENERGY = 1
 
 # 10 Megatonnen = 10_000 Kilotonnen = 10_000_000 Tonnen
 MAX_STORAGE_COAL = 90_000   # Kilotonnen
-BUY_AMOUNT_COAL = 10        # Kilotonnen
+BUY_AMOUNT_COAL = 1000        # Kilotonnen
 
-COAL_FOR_ENERGY = 10        # Kilotonnen
+COAL_FOR_ENERGY = 1000        # Kilotonnen
 ENERGY_PRODUCTION = 10_000  # Megawattstunden
+
+GAMMA = 0.95         # Diskontierungsfaktor
+THRESHOLD = 1e-3    # Konvergenz
+MAX_ITERATIONS = 100
 
 def get_ypsilon(price, min_price, max_price, omega) -> int:
     denominator = (max_price - min_price) ** omega
@@ -105,11 +110,14 @@ def plot_policy_3d(policy):
     )
 
     fig.show()
-
+    
+def write_csv(policy : dict):
+    with open('data_3.csv', 'w', newline='') as csv_file:
+        writer = csv.writer(csv_file)
+        writer.writerow(['storage', 'coal_price', 'energy_price', 'action'])
+        for (storage, coal_price, energy_price), action in policy.items():
+            writer.writerow([storage, coal_price, energy_price, action])
 def main():
-    GAMMA = 0.4         # Diskontierungsfaktor
-    THRESHOLD = 1e-3    # Konvergenz
-    MAX_ITERATIONS = 10
     storage_states = range(0, MAX_STORAGE_COAL + 1, BUY_AMOUNT_COAL)
     coal_price_states = range(MIN_PRICE_COAL, MAX_PRICE_COAL + 1, DELTA_PRICE_COAL)
     energy_price_states = range(MIN_PRICE_ENERGY, MAX_PRICE_ENERGY + 1, DELTA_PRICE_ENERGY)
@@ -154,7 +162,7 @@ def main():
                 # Kosten und Einnahmen berechnen
                 reward = 0
                 if buy:
-                    reward -= BUY_AMOUNT_COAL * 1_000 * coal_price
+                    reward -= BUY_AMOUNT_COAL * coal_price
                 if produce:
                     reward += ENERGY_PRODUCTION * energy_price
 
@@ -183,7 +191,8 @@ def main():
             print(f"Konvergenz erreicht bei Iteration {iteration+1}")
             break
 
-    plot_policy_3d(policy)
+    #plot_policy_3d(policy)
+    write_csv(policy)
 
 
 if __name__ == '__main__':
