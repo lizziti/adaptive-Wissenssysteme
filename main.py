@@ -21,7 +21,7 @@ COAL_FOR_ENERGY = 10        # Kilotonnen
 ENERGY_PRODUCTION = 10_000  # Megawattstunden
 
 def get_ypsilon(price, min_price, max_price, omega) -> int:
-    denominator = (max_price - min_price) ** omega
+    denominator = (max_price - price) ** omega
     if denominator == 0:
         return -1
     numerator = (price - min_price) ** omega
