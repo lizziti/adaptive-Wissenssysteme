@@ -1,6 +1,8 @@
-import plotly.io as pio
-pio.renderers.default = 'browser'
-import plotly.graph_objects as go
+import numpy as np
+import matplotlib.pyplot as plt
+import time
+import csv
+
 
 MIN_PRICE_COAL = 10     # €/Tonne
 MAX_PRICE_COAL = 200    # €/Tonne
@@ -20,10 +22,10 @@ BUY_AMOUNT_COAL = 10        # Kilotonnen
 COAL_FOR_ENERGY = 10        # Kilotonnen
 ENERGY_PRODUCTION = 10_000  # Megawattstunden
 
-def get_ypsilon(price, min_price, max_price, omega) -> int:
+def get_prob_minus(price, min_price, max_price, omega) -> int:
     denominator = (max_price - price) ** omega
     if denominator == 0:
-        return -1
+        return 1 # prob = 100% for -1
     numerator = (price - min_price) ** omega
     rho = numerator / denominator
 
@@ -35,10 +37,10 @@ def get_ypsilon(price, min_price, max_price, omega) -> int:
     return prob
 
 def get_next_prices_and_probs(coal_price, energy_price):
-    prob_coal_minus = get_ypsilon(coal_price, MIN_PRICE_COAL, MAX_PRICE_COAL, OMEGA_COAL)
+    prob_coal_minus = get_prob_minus(coal_price, MIN_PRICE_COAL, MAX_PRICE_COAL, OMEGA_COAL)
     prob_coal_plus = 1 - prob_coal_minus
 
-    prob_energy_minus = get_ypsilon(energy_price, MIN_PRICE_ENERGY, MAX_PRICE_ENERGY, OMEGA_ENERGY)
+    prob_energy_minus = get_prob_minus(energy_price, MIN_PRICE_ENERGY, MAX_PRICE_ENERGY, OMEGA_ENERGY)
     prob_energy_plus = 1 - prob_energy_minus
 
     next_prices = []
@@ -58,58 +60,83 @@ def get_next_prices_and_probs(coal_price, energy_price):
             next_prices.append(((next_coal_price, next_energy_price), combined_prob))
     return next_prices
 
-def plot_policy_3d(policy):
-    x, y, z, colors, texts = [], [], [], [], []
+def export_policy_to_csv(policy, filename="policy.csv"):
+    with open(filename, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        # Kopfzeile
+        writer.writerow(["Storage", "CoalPrice", "EnergyPrice", "Buy", "Produce"])
+        for (storage, coal_price, energy_price), (buy, produce) in policy.items():
+            writer.writerow([storage, coal_price, energy_price, int(buy), int(produce)])
+    print(f"Policy erfolgreich exportiert nach: {filename}\n")
 
-    # Farben je Aktion
-    action_colors = {
-        (False, False): 'gray',    # nichts tun
-        (True, False): 'blue',     # kaufen
-        (False, True): 'green',    # produzieren
-        (True, True): 'orange'     # kaufen & produzieren
+
+def plot_policy(policy):
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from matplotlib.colors import ListedColormap
+    from matplotlib.patches import Patch
+
+    # Festes Mapping: Aktion → Index → Farbe
+    action_to_int = {
+        (False, False): 0,  # gray
+        (True, False): 1,   # red
+        (False, True): 2,   # green
+        (True, True): 3     # blue
     }
 
-    for (storage, coal_price, energy_price), action in policy.items():
-        x.append(coal_price)
-        y.append(energy_price)
-        z.append(storage)
-        colors.append(action_colors.get(action, 'black'))
-        if action == (False, False):
-            texts.append('Nichts')
-        elif action == (True, False):
-            texts.append('Kaufen')
-        elif action == (False, True):
-            texts.append('Produzieren')
-        elif action == (True, True):
-            texts.append('Kaufen & Produzieren')
-        else:
-            texts.append('Unbekannt')
+    colors = ['gray', 'red', 'green', 'blue']
+    cmap = ListedColormap(colors)
 
-    fig = go.Figure(data=[go.Scatter3d(
-        x=x,
-        y=y,
-        z=z,
-        mode='markers',
-        marker=dict(size=4, color=colors),
-        text=texts,
-    )])
+    storage_states = range(0, MAX_STORAGE_COAL + 1, BUY_AMOUNT_COAL)
+    energy_price_states = range(MIN_PRICE_ENERGY, MAX_PRICE_ENERGY + 1, DELTA_PRICE_ENERGY)
+    coal_price_states = range(MIN_PRICE_COAL, MAX_PRICE_COAL + 1, DELTA_PRICE_COAL)
 
-    fig.update_layout(
-        scene=dict(
-            xaxis_title='Kohlepreis [€/Tonne]',
-            yaxis_title='Energiepreis [€/MWh]',
-            zaxis_title='Lagerstand [kt]',
-        ),
-        title='3D-Policy-Visualisierung',
-        margin=dict(l=0, r=0, b=0, t=40)
-    )
+    n_rows, n_cols = 4, 5
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=(20, 12), sharex=True, sharey=True)
 
-    fig.show()
+    for idx, coal_price in enumerate(coal_price_states):
+        row, col = divmod(idx, n_cols)
+        ax = axes[row, col]
+
+        # Grid vorbereiten
+        grid = np.full((len(energy_price_states), len(storage_states)), np.nan)
+
+        for i, ep in enumerate(energy_price_states):
+            for j, storage in enumerate(storage_states):
+                action = policy.get((storage, coal_price, ep))
+                if action is not None:
+                    grid[i, j] = action_to_int[action]
+
+        im = ax.imshow(grid, origin='lower', aspect='auto', cmap=cmap)
+        ax.set_title(f"Kohlepreis = {coal_price} €/t", fontsize=10)
+
+        # Keine Achsenticks oder Beschriftungen
+        ax.set_xticks([])
+        ax.set_yticks([])
+
+    # Achsenbeschriftung (nur Gesamtachsen, keine Einzelticks)
+    fig.text(0.5, 0.04, 'Lagerbestand (kt)', ha='center', fontsize=12)
+    fig.text(0.04, 0.5, 'Energiepreis (€/MWh)', va='center', rotation='vertical', fontsize=12)
+    fig.suptitle("Policy-Heatmaps für verschiedene Kohlepreise", fontsize=16)
+
+    # Legende
+    legend_elements = [
+        Patch(facecolor='gray', label="Nichts tun"),
+        Patch(facecolor='red', label="Kaufen"),
+        Patch(facecolor='green', label="Produzieren"),
+        Patch(facecolor='blue', label="Kaufen & Produzieren")
+    ]
+    fig.legend(handles=legend_elements, title="Aktionen", loc="upper right", bbox_to_anchor=(1.12, 0.9))
+
+    plt.tight_layout()
+    plt.subplots_adjust(left=0.07, bottom=0.07, right=0.98, top=0.9)
+    plt.show()
 
 def main():
-    GAMMA = 0.4         # Diskontierungsfaktor
-    THRESHOLD = 1e-3    # Konvergenz
-    MAX_ITERATIONS = 10
+    start_time = time.time()
+    GAMMA = 0.9         # Diskontierungsfaktor
+    THRESHOLD = 1e-6    # Konvergenz
+    MAX_ITERATIONS = 1000
     storage_states = range(0, MAX_STORAGE_COAL + 1, BUY_AMOUNT_COAL)
     coal_price_states = range(MIN_PRICE_COAL, MAX_PRICE_COAL + 1, DELTA_PRICE_COAL)
     energy_price_states = range(MIN_PRICE_ENERGY, MAX_PRICE_ENERGY + 1, DELTA_PRICE_ENERGY)
@@ -158,7 +185,7 @@ def main():
                 if produce:
                     reward += ENERGY_PRODUCTION * energy_price
 
-                # nächsten Zustände ermitteln
+                # nächste Zustände ermitteln
                 expected_value = 0.0
                 next_prices_and_probs = get_next_prices_and_probs(coal_price, energy_price)
                 for (next_coal_price, next_energy_price), prob in next_prices_and_probs:
@@ -176,14 +203,28 @@ def main():
             delta = max(delta, abs(V_new[state] - V[state]))
 
         V = V_new
-        print(f"Iteration {iteration+1}, max Delta: {delta}")
+
+        elapsed = time.time() - start_time
+        hours = int(elapsed // 3600)
+        minutes = int((elapsed % 3600) // 60)
+        seconds = int(elapsed % 60)
+        print(f"Iteration {iteration+1}, max Delta: {delta}, total duration: {hours:02d}:{minutes:02d}:{seconds:02d}")
+        print(f"Strategie und Wertfunktion von 300, 50, 150: {policy[300, 50, 150]}, {V[300, 50, 150]}\n")
 
         # auf Konvergenz prüfen
         if delta < THRESHOLD:
             print(f"Konvergenz erreicht bei Iteration {iteration+1}")
             break
+        if (iteration+1) % 10 == 0:
+            export_policy_to_csv(policy, f"iteration_{iteration+1}.csv")
 
-    plot_policy_3d(policy)
+    #plot_policy(policy)
+    export_policy_to_csv(policy)
+    elapsed = time.time() - start_time
+    hours = int(elapsed // 3600)
+    minutes = int((elapsed % 3600) // 60)
+    seconds = int(elapsed % 60)
+    print(f"Finished! Total duration: {hours:02d}:{minutes:02d}:{seconds:02d}")
 
 
 if __name__ == '__main__':
