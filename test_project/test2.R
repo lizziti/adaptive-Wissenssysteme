@@ -14,7 +14,7 @@ library(readr)
 # setwd("Pfad/zum/Ordner/mit/policy.csv")
 
 # CSV-Datei laden (eine Ebene höher)
-policy <- read_csv("../iteration_160.csv")
+policy <- read_csv("../iteration_100.csv")
 
 # Aktion als Textlabel hinzufügen
 policy <- policy %>%
@@ -25,7 +25,7 @@ policy <- policy %>%
     Buy == 1 & Produce == 1 ~ "Beides"
   ))
 
-subset_policy <- subset(policy, Storage < 500)
+subset_policy <- subset(policy, Storage < 1000)
 
 # Farbzuweisung für Aktionen
 action_colors <- c(
@@ -50,7 +50,8 @@ p <- ggplot(subset_policy, aes(x = Storage, y = EnergyPrice, fill = Action)) +
   ease_aes("linear")
 
 # Animation anzeigen (in RStudio Viewer)
-animate(p, width = 800, height = 600, fps = 10, renderer = gifski_renderer())
+animate(p, width = 800, height = 600, fps = 20, renderer = gifski_renderer())
 
 # Animation als GIF speichern
-anim_save("policy_animation.gif", animation = last_animation())
+#anim_save("policy_animation.gif", animation = last_animation())
+

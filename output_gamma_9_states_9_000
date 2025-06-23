@@ -1,0 +1,319 @@
+Iteration 1, max Delta: 3000000.0, total duration: 00:00:04
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 1500000.0
+
+Iteration 2, max Delta: 2610000.000000001, total duration: 00:00:10
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 2856000.0
+
+Iteration 3, max Delta: 2270892.857142858, total duration: 00:00:15
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 4080607.5
+
+Iteration 4, max Delta: 1976207.1428571437, total duration: 00:00:19
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 5186146.164705883
+
+Iteration 5, max Delta: 1720263.329081634, total duration: 00:00:24
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 6183663.508643383
+
+Iteration 6, max Delta: 1498079.5852040853, total duration: 00:00:29
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 7083505.869899807
+
+Iteration 7, max Delta: 1305288.6057014298, total duration: 00:00:34
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 7894928.603931267
+
+Iteration 8, max Delta: 1138064.2154227775, total duration: 00:00:39
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 8626509.44866275
+
+Iteration 9, max Delta: 993056.6404555738, total duration: 00:00:44
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 9285909.54436985
+
+Iteration 10, max Delta: 867335.4567243382, total duration: 00:00:49
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 9880193.14019502
+
+Policy erfolgreich exportiert nach: iteration_10.csv
+
+Iteration 11, max Delta: 758339.3372918293, total duration: 00:00:54
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 10415661.956870224
+
+Iteration 12, max Delta: 663831.8139589503, total duration: 00:00:59
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 10898109.111807711
+
+Iteration 13, max Delta: 581862.3502798527, total duration: 00:01:04
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 11332697.476087134
+
+Iteration 14, max Delta: 510732.09266208485, total duration: 00:01:09
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 11724163.726960458
+
+Iteration 15, max Delta: 448963.7252404392, total duration: 00:01:14
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 12076726.031439003
+
+Iteration 16, max Delta: 395274.9047453441, total duration: 00:01:21
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 12394248.936374491
+
+Iteration 17, max Delta: 348551.6792553291, total duration: 00:01:25
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 12680171.866330698
+
+Iteration 18, max Delta: 307828.9923534058, total duration: 00:01:31
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 12937642.723857112
+
+Iteration 19, max Delta: 272282.7085859515, total duration: 00:01:36
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 13169461.767582204
+
+Iteration 20, max Delta: 241191.89200712368, total duration: 00:01:40
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 13378189.991531547
+
+Policy erfolgreich exportiert nach: iteration_20.csv
+
+Iteration 21, max Delta: 213957.11838787422, total duration: 00:01:46
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 13566104.678714855
+
+Iteration 22, max Delta: 190043.35151598603, total duration: 00:01:52
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 13735287.360613292
+
+Iteration 23, max Delta: 169018.26838041842, total duration: 00:01:57
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 13887588.39914821
+
+Iteration 24, max Delta: 150485.73052729294, total duration: 00:02:01
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14024698.378180696
+
+Iteration 25, max Delta: 134134.00483681634, total duration: 00:02:06
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14148119.757202137
+
+Iteration 26, max Delta: 119669.15044812113, total duration: 00:02:14
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14259224.80812823
+
+Iteration 27, max Delta: 106865.10754917935, total duration: 00:02:23
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14359232.858449757
+
+Iteration 28, max Delta: 95502.52749425173, total duration: 00:02:29
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14449257.299083032
+
+Iteration 29, max Delta: 85415.94455908239, total duration: 00:02:37
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14530287.273947522
+
+Iteration 30, max Delta: 76440.38631560653, total duration: 00:02:43
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14603225.811451115
+
+Policy erfolgreich exportiert nach: iteration_30.csv
+
+Iteration 31, max Delta: 68453.37980528548, total duration: 00:02:49
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14619716.146910008
+
+Iteration 32, max Delta: 61329.74625958875, total duration: 00:02:54
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14634506.3068912
+
+Iteration 33, max Delta: 54977.76494491473, total duration: 00:02:59
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14647868.764033778
+
+Iteration 34, max Delta: 49301.59231194109, total duration: 00:03:04
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14659853.84557952
+
+Iteration 35, max Delta: 44231.74751763046, total duration: 00:03:10
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14670682.482218187
+
+Iteration 36, max Delta: 39694.213906250894, total duration: 00:03:15
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14680394.547959045
+
+Iteration 37, max Delta: 35635.79563768208, total duration: 00:03:20
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14689169.21421633
+
+Iteration 38, max Delta: 31998.88181564957, total duration: 00:03:25
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14697038.790712941
+
+Iteration 39, max Delta: 28742.35501909256, total duration: 00:03:30
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14704148.541868929
+
+Iteration 40, max Delta: 25821.061740249395, total duration: 00:03:35
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14710524.72490339
+
+Policy erfolgreich exportiert nach: iteration_40.csv
+
+Iteration 41, max Delta: 23202.955400504172, total duration: 00:03:40
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14716285.090877987
+
+Iteration 42, max Delta: 20852.433973353356, total duration: 00:03:45
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14721450.976310428
+
+Iteration 43, max Delta: 18744.34275061637, total duration: 00:03:50
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14726117.816091001
+
+Iteration 44, max Delta: 16850.468412801623, total duration: 00:03:55
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14730302.938997
+
+Iteration 45, max Delta: 15150.947889640927, total duration: 00:04:00
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14734083.684020802
+
+Iteration 46, max Delta: 13623.328711707145, total duration: 00:04:04
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14737474.117680885
+
+Iteration 47, max Delta: 12251.848532285541, total duration: 00:04:09
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14740536.908309694
+
+Iteration 48, max Delta: 11018.577281951904, total duration: 00:04:14
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14743283.469311189
+
+Iteration 49, max Delta: 9910.95588644594, total duration: 00:04:19
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14745764.577324033
+
+Iteration 50, max Delta: 8914.62513076514, total duration: 00:04:24
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14747989.48975953
+
+Policy erfolgreich exportiert nach: iteration_50.csv
+
+Iteration 51, max Delta: 8019.545133933425, total duration: 00:04:29
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14749999.345509047
+
+Iteration 52, max Delta: 7214.189942214638, total duration: 00:04:34
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14751801.651126102
+
+Iteration 53, max Delta: 6490.512092895806, total duration: 00:04:40
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14753429.735399917
+
+Iteration 54, max Delta: 5839.242717683315, total duration: 00:04:45
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14754889.683792835
+
+Iteration 55, max Delta: 5253.9175115041435, total duration: 00:04:50
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14756208.496646928
+
+Iteration 56, max Delta: 4727.071623343974, total duration: 00:04:55
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14757391.106483089
+
+Iteration 57, max Delta: 4253.503518667072, total duration: 00:05:01
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14758459.386150327
+
+Iteration 58, max Delta: 3827.1941088438034, total duration: 00:05:06
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14759417.333097562
+
+Iteration 59, max Delta: 3443.952205147594, total duration: 00:05:12
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14760282.665976036
+
+Iteration 60, max Delta: 3098.919881824404, total duration: 00:05:17
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14761058.624065632
+
+Policy erfolgreich exportiert nach: iteration_60.csv
+
+Iteration 61, max Delta: 2788.7163541279733, total duration: 00:05:22
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14761759.560523797
+
+Iteration 62, max Delta: 2509.417907088995, total duration: 00:05:27
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14762388.10002721
+
+Iteration 63, max Delta: 2258.2950924783945, total duration: 00:05:32
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14762955.86930405
+
+Iteration 64, max Delta: 2032.176859933883, total duration: 00:05:37
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14763464.994891685
+
+Iteration 65, max Delta: 1828.8580942861736, total duration: 00:05:41
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14763924.894868243
+
+Iteration 66, max Delta: 1645.774818085134, total duration: 00:05:46
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14764337.292079803
+
+Iteration 67, max Delta: 1481.1445515416563, total duration: 00:05:51
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14764709.815443154
+
+Iteration 68, max Delta: 1332.8933943808079, total duration: 00:05:56
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14765043.86068765
+
+Iteration 69, max Delta: 1199.5798771567643, total duration: 00:06:01
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14765345.607410576
+
+Iteration 70, max Delta: 1079.526006769389, total duration: 00:06:06
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14765616.186295763
+
+Policy erfolgreich exportiert nach: iteration_70.csv
+
+Iteration 71, max Delta: 971.5656865946949, total duration: 00:06:11
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14765860.602928557
+
+Iteration 72, max Delta: 874.3424057289958, total duration: 00:06:15
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14766079.773254232
+
+Iteration 73, max Delta: 786.908165153116, total duration: 00:06:20
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14766277.751868151
+
+Iteration 74, max Delta: 708.1747435890138, total duration: 00:06:25
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14766455.280744322
+
+Iteration 75, max Delta: 637.35726923123, total duration: 00:06:30
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14766615.644150484
+
+Iteration 76, max Delta: 573.5943330451846, total duration: 00:06:34
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14766759.443122849
+
+Iteration 77, max Delta: 516.2348997406662, total duration: 00:06:39
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14766889.337947324
+
+Iteration 78, max Delta: 464.5940328575671, total duration: 00:06:44
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767005.81548704
+
+Iteration 79, max Delta: 418.1346295699477, total duration: 00:06:48
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767111.030592138
+
+Iteration 80, max Delta: 376.310069039464, total duration: 00:06:53
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767205.377636943
+
+Policy erfolgreich exportiert nach: iteration_80.csv
+
+Iteration 81, max Delta: 338.679062128067, total duration: 00:06:59
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767290.602061918
+
+Iteration 82, max Delta: 304.8040685765445, total duration: 00:07:03
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767367.023319969
+
+Iteration 83, max Delta: 274.32366171851754, total duration: 00:07:09
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767436.05522544
+
+Iteration 84, max Delta: 246.8867692872882, total duration: 00:07:14
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767497.956541382
+
+Iteration 85, max Delta: 222.1980923600495, total duration: 00:07:19
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767553.87246224
+
+Iteration 86, max Delta: 199.97539247572422, total duration: 00:07:24
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767604.012590047
+
+Iteration 87, max Delta: 179.97785323113203, total duration: 00:07:29
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767649.30453539
+
+Iteration 88, max Delta: 161.97822182625532, total duration: 00:07:34
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767689.918078441
+
+Iteration 89, max Delta: 145.78039964661002, total duration: 00:07:39
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767726.604585752
+
+Iteration 90, max Delta: 131.20118069648743, total duration: 00:07:46
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767759.501580868
+
+Policy erfolgreich exportiert nach: iteration_90.csv
+
+Iteration 91, max Delta: 118.08106262981892, total duration: 00:07:53
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767789.217671957
+
+Iteration 92, max Delta: 106.27220342308283, total duration: 00:07:58
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767815.86425412
+
+Iteration 93, max Delta: 95.64498307928443, total duration: 00:08:03
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767839.93430078
+
+Iteration 94, max Delta: 86.08000392094254, total duration: 00:08:08
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767861.518042635
+
+Iteration 95, max Delta: 77.47200352698565, total duration: 00:08:14
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767881.014788652
+
+Iteration 96, max Delta: 69.72449607774615, total duration: 00:08:19
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767898.49762613
+
+Iteration 97, max Delta: 62.7520464733243, total duration: 00:08:24
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767914.289995655
+
+Iteration 98, max Delta: 56.476645700633526, total duration: 00:08:28
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767928.451098213
+
+Iteration 99, max Delta: 50.82898113131523, total duration: 00:08:33
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767941.242920887
+
+Iteration 100, max Delta: 45.745957773178816, total duration: 00:08:38
+Strategie und Wertfunktion von 300, 50, 150: (False, True), 14767952.713416636
+
+Policy erfolgreich exportiert nach: iteration_100.csv

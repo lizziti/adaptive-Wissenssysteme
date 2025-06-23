@@ -16,7 +16,7 @@ DELTA_PRICE_ENERGY = 10 # €/Megawattstunde
 OMEGA_ENERGY = 1
 
 # 10 Megatonnen = 10_000 Kilotonnen = 10_000_000 Tonnen
-MAX_STORAGE_COAL = 90_000   # Kilotonnen
+MAX_STORAGE_COAL = 9_000   # Kilotonnen # eigentlich 90_000
 BUY_AMOUNT_COAL = 10        # Kilotonnen
 
 COAL_FOR_ENERGY = 10        # Kilotonnen
@@ -134,8 +134,8 @@ def plot_policy(policy):
 
 def main():
     start_time = time.time()
-    GAMMA = 0.9         # Diskontierungsfaktor
-    THRESHOLD = 1e-6    # Konvergenz
+    GAMMA = 0.99         # Diskontierungsfaktor
+    THRESHOLD = 1e-3    # Konvergenz
     MAX_ITERATIONS = 1000
     storage_states = range(0, MAX_STORAGE_COAL + 1, BUY_AMOUNT_COAL)
     coal_price_states = range(MIN_PRICE_COAL, MAX_PRICE_COAL + 1, DELTA_PRICE_COAL)
@@ -156,6 +156,8 @@ def main():
     for iteration in range(MAX_ITERATIONS):
         delta = 0
         V_new = {}
+
+        action_change_counter = 0
 
         for state in states:
             storage, coal_price, energy_price = state
@@ -195,6 +197,8 @@ def main():
                 # beste Aktion ermitteln
                 if expected_value > best_action_value:
                     best_action_value = expected_value
+                    if best_action != action:
+                        action_change_counter += 1
                     best_action = action
 
             # Wertfunktion und Strategie aktualisieren
@@ -208,14 +212,13 @@ def main():
         hours = int(elapsed // 3600)
         minutes = int((elapsed % 3600) // 60)
         seconds = int(elapsed % 60)
-        print(f"Iteration {iteration+1}, max Delta: {delta}, total duration: {hours:02d}:{minutes:02d}:{seconds:02d}")
-        print(f"Strategie und Wertfunktion von 300, 50, 150: {policy[300, 50, 150]}, {V[300, 50, 150]}\n")
+        print(f"It: {iteration+1}, delta: {delta}, actions changed: {action_change_counter} total duration: {hours:02d}:{minutes:02d}:{seconds:02d}")
 
         # auf Konvergenz prüfen
         if delta < THRESHOLD:
             print(f"Konvergenz erreicht bei Iteration {iteration+1}")
             break
-        if (iteration+1) % 10 == 0:
+        if (iteration+1) % 100 == 0:
             export_policy_to_csv(policy, f"iteration_{iteration+1}.csv")
 
     #plot_policy(policy)
