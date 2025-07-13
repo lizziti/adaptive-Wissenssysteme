@@ -1,5 +1,5 @@
 # Lies die CSV-Datei ein
-policy <- read.csv("../iteration_100.csv")
+policy <- read.csv("../iteration_1000.csv")
 
 
 # Schau dir die ersten Zeilen an
@@ -8,8 +8,9 @@ head(policy)
 library(ggplot2)
 
 # Nur für CoalPrice == 100
-subset_policy <- subset(policy, CoalPrice == 50)
-subset_policy <- subset(subset_policy, Storage < 1000)
+subset_policy <- subset(policy, CoalPrice == 70)
+subset_policy <- subset(subset_policy, EnergyPrice == 90)
+subset_policy <- subset(subset_policy, Storage < 9000)
 
 # Visualisiere Buy/Produce als Farben
 ggplot(subset_policy, aes(x = Storage, y = EnergyPrice)) +

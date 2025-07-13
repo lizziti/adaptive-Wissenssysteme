@@ -69,6 +69,15 @@ def export_policy_to_csv(policy, filename="policy.csv"):
             writer.writerow([storage, coal_price, energy_price, int(buy), int(produce)])
     print(f"Policy erfolgreich exportiert nach: {filename}\n")
 
+def export_values_to_csv(V, filename="values.csv"):
+    with open(filename, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        # Kopfzeile
+        writer.writerow(["Storage", "CoalPrice", "EnergyPrice", "Wert"])
+        for (storage, coal_price, energy_price), (value) in V.items():
+            writer.writerow([storage, coal_price, energy_price, value])
+    print(f"Wertfunktion erfolgreich exportiert nach: {filename}\n")
+
 
 def plot_policy(policy):
     import numpy as np
@@ -135,7 +144,7 @@ def plot_policy(policy):
 def main():
     start_time = time.time()
     GAMMA = 0.99         # Diskontierungsfaktor
-    THRESHOLD = 1e-3    # Konvergenz
+    THRESHOLD = 1e-3     # Konvergenz
     MAX_ITERATIONS = 1000
     storage_states = range(0, MAX_STORAGE_COAL + 1, BUY_AMOUNT_COAL)
     coal_price_states = range(MIN_PRICE_COAL, MAX_PRICE_COAL + 1, DELTA_PRICE_COAL)
@@ -212,14 +221,17 @@ def main():
         hours = int(elapsed // 3600)
         minutes = int((elapsed % 3600) // 60)
         seconds = int(elapsed % 60)
-        print(f"It: {iteration+1}, delta: {delta}, actions changed: {action_change_counter} total duration: {hours:02d}:{minutes:02d}:{seconds:02d}")
+        print(f"It: {iteration+1}, delta: {delta}, actions changed: {action_change_counter}, total duration: {hours:02d}:{minutes:02d}:{seconds:02d}")
 
         # auf Konvergenz prüfen
         if delta < THRESHOLD:
             print(f"Konvergenz erreicht bei Iteration {iteration+1}")
             break
         if (iteration+1) % 100 == 0:
-            export_policy_to_csv(policy, f"iteration_{iteration+1}.csv")
+            export_policy_to_csv(policy, f"it_{iteration+1}_policy.csv")
+            export_values_to_csv(V, f"it_{iteration + 1}_values.csv")
+        if (iteration+1) == 1 or (iteration+1) == 2 or (iteration+1) == 3 or (iteration+1) == 10:
+            export_values_to_csv(V, f"it_{iteration + 1}_values.csv")
 
     #plot_policy(policy)
     export_policy_to_csv(policy)
