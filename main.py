@@ -7,7 +7,7 @@ import csv
 MIN_PRICE_COAL = 10     # €/Tonne
 MAX_PRICE_COAL = 200    # €/Tonne
 DELTA_PRICE_COAL = 10   # €/Tonne
-OMEGA_COAL = 2
+OMEGA_COAL = 4
 
 # 1 Tonne → 1 Megawattstunde
 MIN_PRICE_ENERGY = 10   # €/Megawattstunde
@@ -22,6 +22,8 @@ BUY_AMOUNT_COAL = 10        # Kilotonnen
 COAL_FOR_ENERGY = 10        # Kilotonnen
 ENERGY_PRODUCTION = 10_000  # Megawattstunden
 
+price_transition_cache = {}
+
 def get_prob_minus(price, min_price, max_price, omega) -> int:
     denominator = (max_price - price) ** omega
     if denominator == 0:
@@ -35,6 +37,14 @@ def get_prob_minus(price, min_price, max_price, omega) -> int:
         prob = 1 - 1/(2*rho)
 
     return prob
+
+
+def get_next_prices_and_probs_cached(coal_price, energy_price):
+    key = (coal_price, energy_price)
+    if key not in price_transition_cache:
+        price_transition_cache[key] = get_next_prices_and_probs(coal_price, energy_price)
+    return price_transition_cache[key]
+
 
 def get_next_prices_and_probs(coal_price, energy_price):
     prob_coal_minus = get_prob_minus(coal_price, MIN_PRICE_COAL, MAX_PRICE_COAL, OMEGA_COAL)
@@ -70,67 +80,6 @@ def export_policy_to_csv(policy, filename="policy.csv"):
     print(f"Policy erfolgreich exportiert nach: {filename}\n")
 
 
-def plot_policy(policy):
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from matplotlib.colors import ListedColormap
-    from matplotlib.patches import Patch
-
-    # Festes Mapping: Aktion → Index → Farbe
-    action_to_int = {
-        (False, False): 0,  # gray
-        (True, False): 1,   # red
-        (False, True): 2,   # green
-        (True, True): 3     # blue
-    }
-
-    colors = ['gray', 'red', 'green', 'blue']
-    cmap = ListedColormap(colors)
-
-    storage_states = range(0, MAX_STORAGE_COAL + 1, BUY_AMOUNT_COAL)
-    energy_price_states = range(MIN_PRICE_ENERGY, MAX_PRICE_ENERGY + 1, DELTA_PRICE_ENERGY)
-    coal_price_states = range(MIN_PRICE_COAL, MAX_PRICE_COAL + 1, DELTA_PRICE_COAL)
-
-    n_rows, n_cols = 4, 5
-    fig, axes = plt.subplots(n_rows, n_cols, figsize=(20, 12), sharex=True, sharey=True)
-
-    for idx, coal_price in enumerate(coal_price_states):
-        row, col = divmod(idx, n_cols)
-        ax = axes[row, col]
-
-        # Grid vorbereiten
-        grid = np.full((len(energy_price_states), len(storage_states)), np.nan)
-
-        for i, ep in enumerate(energy_price_states):
-            for j, storage in enumerate(storage_states):
-                action = policy.get((storage, coal_price, ep))
-                if action is not None:
-                    grid[i, j] = action_to_int[action]
-
-        im = ax.imshow(grid, origin='lower', aspect='auto', cmap=cmap)
-        ax.set_title(f"Kohlepreis = {coal_price} €/t", fontsize=10)
-
-        # Keine Achsenticks oder Beschriftungen
-        ax.set_xticks([])
-        ax.set_yticks([])
-
-    # Achsenbeschriftung (nur Gesamtachsen, keine Einzelticks)
-    fig.text(0.5, 0.04, 'Lagerbestand (kt)', ha='center', fontsize=12)
-    fig.text(0.04, 0.5, 'Energiepreis (€/MWh)', va='center', rotation='vertical', fontsize=12)
-    fig.suptitle("Policy-Heatmaps für verschiedene Kohlepreise", fontsize=16)
-
-    # Legende
-    legend_elements = [
-        Patch(facecolor='gray', label="Nichts tun"),
-        Patch(facecolor='red', label="Kaufen"),
-        Patch(facecolor='green', label="Produzieren"),
-        Patch(facecolor='blue', label="Kaufen & Produzieren")
-    ]
-    fig.legend(handles=legend_elements, title="Aktionen", loc="upper right", bbox_to_anchor=(1.12, 0.9))
-
-    plt.tight_layout()
-    plt.subplots_adjust(left=0.07, bottom=0.07, right=0.98, top=0.9)
-    plt.show()
 
 def main():
     start_time = time.time()
@@ -146,6 +95,11 @@ def main():
         for coal_price in coal_price_states
         for energy_price in energy_price_states
     ]
+    
+    valid_states = set(states)
+
+
+
     actions = [(False, False), (True, False), (False, True), (True, True)] # (kaufen, produzieren)
 
     # Initialisiere Wertfunktion und Strategie
@@ -189,10 +143,13 @@ def main():
 
                 # nächste Zustände ermitteln
                 expected_value = 0.0
-                next_prices_and_probs = get_next_prices_and_probs(coal_price, energy_price)
+                next_prices_and_probs = get_next_prices_and_probs_cached(coal_price, energy_price)
                 for (next_coal_price, next_energy_price), prob in next_prices_and_probs:
                     next_state = (next_storage, next_coal_price, next_energy_price)
+                    if next_state not in V:
+                        continue  # oder: setze prob auf 0
                     expected_value += prob * (reward + GAMMA * V[next_state])
+
 
                 # beste Aktion ermitteln
                 if expected_value > best_action_value:
@@ -219,10 +176,10 @@ def main():
             print(f"Konvergenz erreicht bei Iteration {iteration+1}")
             break
         if (iteration+1) % 100 == 0:
-            export_policy_to_csv(policy, f"iteration_{iteration+1}.csv")
+            export_policy_to_csv(policy, f"w_4_1_iteration_{iteration+1}.csv")
 
     #plot_policy(policy)
-    export_policy_to_csv(policy)
+    #export_policy_to_csv(policy, f"base_iteration_{iteration+1}.csv")
     elapsed = time.time() - start_time
     hours = int(elapsed // 3600)
     minutes = int((elapsed % 3600) // 60)
