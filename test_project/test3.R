@@ -1,5 +1,5 @@
 # Lies die CSV-Datei ein
-policy <- read.csv("../iteration_1000.csv")
+policy <- read.csv("../it_1000_policy.csv")
 
 library(ggplot2)
 library(dplyr)
@@ -14,7 +14,7 @@ action_colors <- c(
 
 # Filtere relevante Daten
 policy_filtered <- policy %>%
-  filter(CoalPrice %% 10 == 0, CoalPrice >= 10, CoalPrice <= 200, Storage < 3000) %>%
+  filter(EnergyPrice %% 10 == 0, EnergyPrice >= 10, EnergyPrice <= 300, Storage < 3000) %>%
   mutate(
     Aktion = case_when(
       Buy == 0 & Produce == 0 ~ "Nichts",
@@ -25,10 +25,39 @@ policy_filtered <- policy %>%
   )
 
 # Erzeuge das Plot
-ggplot(policy_filtered, aes(x = Storage, y = EnergyPrice)) +
+ggplot(policy_filtered, aes(x = Storage, y = CoalPrice)) +
   geom_tile(aes(fill = Aktion)) +
   scale_fill_manual(values = action_colors) +
-  facet_wrap(~ CoalPrice, ncol = 5) +
-  labs(title = "Policy für verschiedene Kohlepreise", fill = "Aktion") +
+  facet_wrap(~ EnergyPrice, ncol = 5) +
+  labs(title = "Policy für verschiedene Energiepreise", fill = "Aktion") +
+  theme_minimal()
+
+
+
+
+
+
+library(mgcv)
+
+gam_model <- gam(Buy ~ s(CoalPrice) + s(Storage), 
+                 data = policy_filtered, 
+                 family = binomial)
+newdata <- expand.grid(
+  CoalPrice = seq(min(policy_filtered$CoalPrice), max(policy_filtered$CoalPrice), length.out = 200),
+  Storage = seq(min(policy_filtered$Storage), max(policy_filtered$Storage), length.out = 200)
+)
+
+newdata$BuyProb <- predict(gam_model, newdata, type = "response")
+
+ggplot(policy_filtered, aes(x = CoalPrice, y = Storage)) +
+  geom_point(aes(color = factor(Buy)), alpha = 0.4) +
+  geom_contour(data = newdata, aes(z = BuyProb), breaks = 0.5, color = "black", size = 1.2) +
+  scale_color_manual(values = c("0" = "gray70", "1" = "red"), labels = c("Nein", "Ja")) +
+  labs(
+    title = "Nicht-lineare Entscheidungskante für Kaufen",
+    x = "Kohlepreis",
+    y = "Lagerbestand",
+    color = "Kaufen"
+  ) +
   theme_minimal()
 

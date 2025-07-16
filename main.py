@@ -173,6 +173,9 @@ def main():
             best_action_value = float('-inf')
             best_action = None
 
+            if state == (20, 70, 90) and (iteration == 2 or iteration == 9):
+                V_state = V[state]
+
             for action in actions:
                 buy, produce = action
 
@@ -201,17 +204,18 @@ def main():
                 next_prices_and_probs = get_next_prices_and_probs(coal_price, energy_price)
                 for (next_coal_price, next_energy_price), prob in next_prices_and_probs:
                     next_state = (next_storage, next_coal_price, next_energy_price)
+                    V_next = V[next_state]
                     expected_value += prob * (reward + GAMMA * V[next_state])
 
                 # beste Aktion ermitteln
                 if expected_value > best_action_value:
                     best_action_value = expected_value
-                    if best_action != action:
-                        action_change_counter += 1
                     best_action = action
 
             # Wertfunktion und Strategie aktualisieren
             V_new[state] = best_action_value
+            if best_action != policy[state]:
+                action_change_counter += 1
             policy[state] = best_action
             delta = max(delta, abs(V_new[state] - V[state]))
 
@@ -227,10 +231,9 @@ def main():
         if delta < THRESHOLD:
             print(f"Konvergenz erreicht bei Iteration {iteration+1}")
             break
-        if (iteration+1) % 100 == 0:
+        if ((iteration+1) == 1 or (iteration+1) == 2 or (iteration+1) == 3
+                or (iteration+1) == 10 or (iteration+1) % 100 == 0):
             export_policy_to_csv(policy, f"it_{iteration+1}_policy.csv")
-            export_values_to_csv(V, f"it_{iteration + 1}_values.csv")
-        if (iteration+1) == 1 or (iteration+1) == 2 or (iteration+1) == 3 or (iteration+1) == 10:
             export_values_to_csv(V, f"it_{iteration + 1}_values.csv")
 
     #plot_policy(policy)
